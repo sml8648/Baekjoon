@@ -1,0 +1,5 @@
+SELECT count(rank_no) - 1 as count from
+(SELECT NAME,
+ROW_NUMBER() OVER (PARTITION BY NAME ORDER BY NAME) rank_no
+from ANIMAL_INS) AS NAME_WITH_RANK
+WHERE rank_no = 1
