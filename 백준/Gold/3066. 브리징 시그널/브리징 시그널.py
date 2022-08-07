@@ -11,15 +11,9 @@ for _ in range(m):
         numbers.append(int(input()))
 
     answer = [-1]
-    answer_arr = [1]*len(numbers)
-    count = 0
-
-
     for idx, number in enumerate(numbers):
         if answer[-1] < number:
             answer.append(number)
-            count += 1
-            answer_arr[idx] = count
         else:
             left = 0
             right = len(answer)
@@ -31,6 +25,5 @@ for _ in range(m):
                 else:
                     right = mid
             answer[right] = number
-            answer_arr[idx] = right
 
     print(len(answer)-1)
