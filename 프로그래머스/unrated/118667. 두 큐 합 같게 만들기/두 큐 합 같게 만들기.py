@@ -26,10 +26,10 @@ def solution(queue1, queue2):
             sum_q1 += value
         else:
             break
-            
+        
         if count > length and sum_q1 != sum_q2:
             break
-
+            
         count += 1
             
     if sum_q1 != sum_q2:
