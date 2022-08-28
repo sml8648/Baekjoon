@@ -12,7 +12,7 @@ spot.sort()
 start = 0
 end = spot[-1] - spot[0]
 
-answer = -1
+largest = -1
 while start <= end:
 
     mid = (end + start) // 2
@@ -25,9 +25,11 @@ while start <= end:
             first_point = i
 
     if count >= c:
-        answer = mid
         start = mid + 1
     else:
         end = mid - 1
 
-print(answer)
+    if count >= c:
+        largest = mid
+
+print(largest)
