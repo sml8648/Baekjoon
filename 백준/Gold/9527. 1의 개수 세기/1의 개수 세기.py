@@ -1,24 +1,20 @@
 import sys
 import math
 
-sys.setrecursionlimit(10 ** 8)
-input = lambda: sys.stdin.readline().rstrip()
+sys.setrecursionlimit(10000000)
+input = sys.stdin.readline
 
-
-def sum_f(x):
+def sum_one(x):
     if x <= 0:
         return 0
 
-    seung = int(math.log2(x))  # 2**seung <= x <= 2**(seung+1)
-    floor_2pow = 2 ** seung  # <= x 인 2의 ?승
-    if floor_2pow == x:
-        return seung * x // 2 + 1
+    power = int(math.log2(x))
+    power_below = 2 ** power
+    if power_below == x:
+        return power * x // 2 + 1
 
-    diff = x - floor_2pow
-    return sum_f(floor_2pow) + diff + sum_f(diff)
+    diff = x - power_below
+    return sum_one(power_below) + diff + sum_one(diff)
 
-
-# 2**53 < 10**16 < 2**54
-# MAX = 10000000000000000
-a, b = map(int, input().split())
-print(sum_f(b) - sum_f(a - 1))
+A, B = map(int,input().split())
+print(sum_one(B) - sum_one(A-1))
