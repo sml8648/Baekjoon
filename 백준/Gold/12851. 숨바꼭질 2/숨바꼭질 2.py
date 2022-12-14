@@ -4,6 +4,7 @@ input = sys.stdin.readline
 
 n,k = map(int,input().split())
 
+# 엣지 케이스를 위한 if문
 if n > k:
     print(n - k)
     print(1)
@@ -11,17 +12,16 @@ if n > k:
 else:
 
     visited = [0]*100001
-
     q = deque()
-
     q.append((n,[n]))
-    
+
     count = 0
     Shortest_time = 1e9
 
     while q:
         a, SP = q.popleft()
 
+        # 이미 거쳐온 경로가 현재 최단 경로보다 크면 패스
         if not (len(SP) -1 <= Shortest_time):
             continue
 
