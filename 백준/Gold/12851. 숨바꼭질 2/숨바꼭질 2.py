@@ -4,26 +4,28 @@ input = sys.stdin.readline
 
 n,k = map(int,input().split())
 
-
 if n > k:
-    print(n-k)
+    print(n - k)
     print(1)
-    
+
 else:
+
     visited = [0]*100001
 
     q = deque()
 
     q.append((n,[n]))
-
+    
     count = 0
     Shortest_time = 1e9
 
     while q:
         a, SP = q.popleft()
 
-        if a == k:
+        if not (len(SP) -1 <= Shortest_time):
+            continue
 
+        if a == k:
             if len(SP) - 1 <= Shortest_time:
                 Shortest_time = len(SP) - 1
                 count += 1
