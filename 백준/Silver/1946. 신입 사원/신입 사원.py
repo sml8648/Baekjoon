@@ -1,19 +1,20 @@
-n = int(input())
+import sys
+input = sys.stdin.readline
 
-for _ in range(n):
+T = int(input())
+for _ in range(T):
 
-    a = int(input())
+    N = int(input())
 
-    tmp_list = []
-    for _ in range(a):
-        q, p = map(int,input().split())
-        tmp_list.append((q,p))
-
-    aaa = sorted(tmp_list)
+    applicant_list = []
+    for _ in range(N):
+        document, interview = map(int,input().split())
+        applicant_list.append((document, interview))
+    applicant_list.sort()
 
     best_score = 1000000
     count = 0
-    for idx, each in enumerate(aaa):
+    for idx, each in enumerate(applicant_list):
         if best_score > each[1]:
             count += 1
             best_score = each[1]
