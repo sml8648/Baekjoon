@@ -1,37 +1,38 @@
+import sys
+input = sys.stdin.readline
 import copy
 
-def recursive(array, n):
-    if len(array) == n:
-        operators_list.append(copy.deepcopy(array))
+t = int(input())
+
+result = []
+def backtracking(i):
+
+    global s
+
+    if i == n:
+        s += str(i)
+        tmp = copy.deepcopy(s)
+        tmp = tmp.replace(' ','')
+        if eval(tmp) == 0:
+            result.append(s)
+        s = s[:-1]
         return
 
-    array.append(' ')
-    recursive(array, n)
-    array.pop()
+    s += str(i)
 
-    array.append('+')
-    recursive(array, n)
-    array.pop()
+    for each in [' ','+','-']:
+        s += each
+        backtracking(i+1)
+        s = s[:-1]
 
-    array.append('-')
-    recursive(array, n)
-    array.pop()
+    s = s[:-1]
 
-test_case = int(input())
 
-for _ in range(test_case):
-    operators_list = []
+for _ in range(t):
     n = int(input())
-    recursive([], n - 1)
+    s = ''
+    backtracking(1)
+    result.append('')
 
-    integers = [i for i in range(1, n + 1)]
-
-    for operators in operators_list:
-        string = ""
-        for i in range(n - 1):
-            string += str(integers[i]) + operators[i]
-        string += str(integers[-1])
-        if eval(string.replace(" ", "")) == 0:
-            print(string)
-
-    print()
+for each in result:
+    print(each)
