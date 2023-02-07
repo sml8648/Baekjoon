@@ -1,19 +1,35 @@
-import heapq
 import sys
 input = sys.stdin.readline
+import heapq
 n = int(input())
-array = []
+
+homework_list = []
+for each in range(n):
+    a, b = map(int,input().split())
+
+    homework_list.append((a,b))
+
+homework_list.sort(key=lambda x:x[0])
+
 q = []
+today = 1
+total_score = 0
+for each in homework_list:
 
-for i in range(n):
-    a, b = map(int,input().split(' '))
-    array.append((a,b))
-array.sort()
-for i in array:
-    a = i[0]
-    heapq.heappush(q, i[1])
+    due, score = each
 
-    if a < len(q):
-        heapq.heappop(q)
+    if len(q) < due:
+        heapq.heappush(q,(score, due))
+        total_score += score
+    else:
 
-print(sum(q))
+        score2, due2 = heapq.heappop(q)
+
+        if score > score2:
+            heapq.heappush(q, (score, due))
+            total_score -= score2
+            total_score += score
+        else:
+            heapq.heappush(q, (score2, due2))
+
+print(total_score)
