@@ -1,49 +1,50 @@
+import sys
+input = sys.stdin.readline
 from collections import deque
 
-n,m = map(int,input().split())
-a = [list(map(int,input().split())) for i in range(n)]
-c = 0
+n, m = map(int, input().split())
+graph = []
+for i in range(n):
+    row = list(map(int,input().split()))
+    graph.append(row)
 
-dx = [-1,0,1,0]
-dy = [0,1,0,-1]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
 def bfs():
-    de = deque()
-    de.append([0,0])
-    ch=[[-1]*m for i in range(n)]
-    ch[0][0] = 0
-
-    while de:
-
-        x, y = de.popleft()
-
+    visited = [[False] * m for _ in range(n)]
+    visited[0][0] = True
+    queue = deque([(0,0)])
+    while queue:
+        x, y = queue.popleft()
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
+            if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                continue
+            if not visited[nx][ny]:
+                if graph[nx][ny] >= 1:
+                    graph[nx][ny] += 1
+                else:
+                    queue.append((nx, ny))
+                    visited[nx][ny] = True
 
-            if 0 <= nx < n and 0 <= ny < m:
-                if ch[nx][ny] == -1:
-                    if a[nx][ny] >= 1:
-                        a[nx][ny] += 1
-                    else:
-                        ch[nx][ny] = 0
-                        de.append([nx,ny])
-
-while True:
-    bfs()
-    cht = 0
+def melt():
+    finish = True
     for i in range(n):
         for j in range(m):
-            if a[i][j] >= 3:
-                a[i][j] = 0
-                cht += 1
-            elif a[i][j] == 2:
-                a[i][j] = 1
+            if graph[i][j] >= 3:
+                graph[i][j] = 0
+                finish = False
+            elif graph[i][j] == 2:
+                graph[i][j] = 1
+    return finish
 
-    if cht >= 1:
-        c += 1
-    else:
+result = 0
+while True:
+    bfs()
+    if melt():
+        print(result)
         break
-
-
-print(c)
+    else:
+        result += 1
