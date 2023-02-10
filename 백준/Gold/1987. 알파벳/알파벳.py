@@ -1,27 +1,33 @@
 import sys
 input = sys.stdin.readline
+sys.setrecursionlimit(int(1e5))
 
-index = [[0,1],[1,0],[-1,0],[0,-1]]
-count = 1
+def dfs(x, y, cost):
+    global result
+    result = max(result, cost)
 
-def bfs():
-    global count
-    queue = set([(0, 0, matrix[0][0])])
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-    while queue:
-        x, y, z = queue.pop()
-        count = max(count, len(z))
+        if nx < 0 or nx >= r or ny < 0 or ny >= c:
+            continue
 
-        for i in range(4):
-            nx = x + index[i][0]
-            ny = y + index[i][1]
+        if not visited[ord(graph[nx][ny]) - 65]:
+            visited[ord(graph[nx][ny]) - 65] = True
+            dfs(nx, ny, cost + 1)
+            visited[ord(graph[nx][ny]) - 65] = False
 
-            if 0 <= nx < r and 0 <= ny < c and matrix[nx][ny] not in z:
-                queue.add((nx, ny, matrix[nx][ny] + z))
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
+r, c = map(int,input().split())
+graph = []
+for _ in range(r):
+    graph.append(input())
 
-r, c = map(int, input().split())
-matrix = [list(map(str, input().strip())) for _ in range(r)]
-
-bfs()
-print(count)
+result = 0
+visited = [False] * 26
+visited[ord(graph[0][0]) - 65] = True
+dfs(0, 0, 1)
+print(result)
