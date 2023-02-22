@@ -1,39 +1,50 @@
 import sys
 input = sys.stdin.readline
 
-def find_parent(parent, x):
+m, n = map(int, input().split())
+
+def find_parent(x):
+
+    # if x == parent[x]:
+    #     return x
+    # else:
+    #     return find_parent(parent[x])
+
     if parent[x] != x:
-        parent[x] = find_parent(parent, parent[x])
+        parent[x] = find_parent(parent[x])
     return parent[x]
 
+def union_parent(x,y):
 
-def union_parent(parent, a, b):
-    a = find_parent(parent, a)
-    b = find_parent(parent, b)
-    if a < b:
-        parent[b] = a
+    x = find_parent(x)
+    y = find_parent(y)
+
+    if x < y:
+        parent[y] = x
     else:
-        parent[a] = b
+        parent[x] = y
+    # X = find_parent(x)
+    # Y = find_parent(y)
+    #
+    # if X < Y:
+    #     parent[y] = X
+    # elif Y < X:
+    #     parent[x] = Y
 
+parent = [i for i in range(m)]
 
-v, e = map(int, input().split())
-parent = [0] * (v + 1)
-
-for i in range(1, v + 1):
-    parent[i] = i
+count = 0
 
 cycle = False
-count = 0
-for i in range(e):
-    a, b = map(int, input().split())
-    count += 1
-    if find_parent(parent, a) == find_parent(parent, b):
+for i in range(n):
+    a, b = map(int,input().split())
+
+    if find_parent(a) == find_parent(b):
         cycle = True
+        print(i + 1)
         break
     else:
-        union_parent(parent, a, b)
+        union_parent(a,b)
 
-if cycle:
-    print(count)
-else:
+if not cycle:
     print(0)
