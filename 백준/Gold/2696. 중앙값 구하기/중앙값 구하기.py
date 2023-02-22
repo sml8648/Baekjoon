@@ -1,36 +1,48 @@
 import sys
-
-input = sys.stdin.readline
 import heapq
+input = sys.stdin.readline
 
-def show_result():
-    
-    print(len(result))
-    for i in range(len(result)):
-        print(result[i], end=' ')
-        
-        if (i + 1) % 10 == 0:
-            print()
-    print()
-    
-for _ in range(int(input())):
+n = int(input())
+
+for _ in range(n):
     m = int(input())
-    data = []
-    for i in range(m // 10 + 1):
-        data.extend(list(map(int,input().split())))
-    left = []
-    right = []
-    median = data[0]
-    result = [median]
-    for i in range(1, m):
-        if data[i] <= median: heapq.heappush(left, -data[i])
-        else: heapq.heappush(right, data[i])
-        if i % 2 == 0:
-            if len(left) > len(right):
-                heapq.heappush(right, median)
-                median = -heapq.heappop(left)
-            elif len(left) < len(right):
-                heapq.heappush(left, -median)
-                median = heapq.heappop(right)
-            result.append(median)
-    show_result()
+
+    arr_list = []
+    for _ in range((m // 10) + 1):
+        arr_list.extend(list(map(int,input().split())))
+
+    result = [arr_list[0]]
+    stack_left = []
+    stack_right = []
+    middle = arr_list[0]
+
+    for idx, each in enumerate(arr_list[1:]):
+
+        if each >= middle:
+            heapq.heappush(stack_right, each)
+        elif each < middle:
+            heapq.heappush(stack_left, -each)
+        
+        # 홀 수 일떄
+        if idx % 2:
+            if len(stack_left) > len(stack_right):
+                number = heapq.heappop(stack_left)
+                heapq.heappush(stack_right, middle)
+                middle = -number
+                result.append(middle)
+
+            elif len(stack_left) < len(stack_right):
+
+                number = heapq.heappop(stack_right)
+                heapq.heappush(stack_left, -middle)
+                middle = number
+                result.append(middle)
+            else:
+                result.append(middle)
+
+    print(len(result))
+    for i in range((len(result) // 10) + 1):
+
+        for each in result[i*10:(i+1)*10]:
+            print(each, end=' ')
+        print()
