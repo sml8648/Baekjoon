@@ -24,10 +24,7 @@ def solution(relation):
         for row in relation:
             distinct = []
             for idx in comb:
-                try:
-                    distinct.append(row[idx])
-                except:
-                    breakpoint()
+                distinct.append(row[idx])
             tmp_set.add(tuple(distinct))
 
         if len(tmp_set) == len(relation):
