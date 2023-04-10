@@ -1,5 +1,6 @@
 from collections import deque
 
+# 변하면 안되는 값들은 tuple로 설정을 해두고
 idx = [[0,1,0,1],[1,0,1,0],[-1,0,-1,0],[0,-1,0,-1]]
 idx_horiz = [[-1,1,0,0],[1,1,0,0],[0,0,1,-1],[0,0,-1,-1]]
 idx_verti = [[1,-1,0,0],[1,1,0,0],[0,0,-1,1],[0,0,-1,-1]]
@@ -46,6 +47,7 @@ def solution(board):
             coordinate = sorted([(n_tx1, n_ty1), (n_tx2, n_ty2)], key=lambda x: (x[0], x[1]))
             n_tx1, n_ty1, n_tx2, n_ty2 = *coordinate[0], *coordinate[1]
 
+            # 반복되는 체크 로직은 함수로 설정을 해둔다.
             if 0 <= n_tx1 < length and 0 <= n_ty1 < length and 0 <= n_tx2 < length and 0 <= n_ty2 < length \
                 and not board[n_tx1][n_ty1] and not board[n_tx2][n_ty2]:
 
@@ -66,7 +68,6 @@ def solution(board):
                 n_tx1, n_ty1, n_tx2, n_ty2 = *coordinate[0], *coordinate[1]
 
                 if 0 <= n_tx1 < length and 0 <= n_ty1 < length and 0 <= n_tx2 < length and 0 <= n_ty2 < length \
-                        and not board[n_tx1][n_ty1] and not board[n_tx2][n_ty2] \
                         and rotate_check(board, tx1,ty1,tx2,ty2,n_tx1,n_ty1,n_tx2,n_ty2):
 
                     if (n_tx1, n_ty1, n_tx2, n_ty2) not in visited:
@@ -86,7 +87,6 @@ def solution(board):
                 n_tx1, n_ty1, n_tx2, n_ty2 = *coordinate[0], *coordinate[1]
 
                 if 0 <= n_tx1 < length and 0 <= n_ty1 < length and 0 <= n_tx2 < length and 0 <= n_ty2 < length \
-                        and not board[n_tx1][n_ty1] and not board[n_tx2][n_ty2] \
                         and rotate_check(board, tx1,ty1,tx2,ty2,n_tx1,n_ty1,n_tx2,n_ty2):
 
                     if (n_tx1, n_ty1, n_tx2, n_ty2) not in visited:
