@@ -1,12 +1,12 @@
 from collections import deque
+
+
 def solution(n, path, order):
-    
     if n == 2:
         return False
-    
+
     graph = [[] for _ in range(n)]
     indegree = [0] * n
-    indegree[0] = 0
 
     for each in path:
         graph[each[0]].append(each[1])
@@ -34,20 +34,19 @@ def solution(n, path, order):
     q = deque()
     q.append(0)
 
-    
     visited = set()
     while q:
 
         now = q.popleft()
         visited.add(now)
-        
+
         for each in graph[now]:
 
             indegree[each] -= 1
 
             if not indegree[each]:
                 q.append(each)
-    
+
     if len(visited) == n:
         return True
     else:
