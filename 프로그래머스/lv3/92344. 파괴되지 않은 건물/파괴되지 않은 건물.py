@@ -1,31 +1,40 @@
 def solution(board, skill):
-    answer = 0
-    tmp = [[0] * (len(board[0]) + 1) for _ in range(len(board) + 1)]  # 누적합 기록을 위한 배열
 
-    for type, r1, c1, r2, c2, degree in skill:
-        # 누적합 기록, 부호에 주의할 것
-        tmp[r1][c1] += degree if type == 2 else -degree
-        tmp[r1][c2 + 1] += -degree if type == 2 else degree
-        tmp[r2 + 1][c1] += -degree if type == 2 else degree
-        tmp[r2 + 1][c2 + 1] += degree if type == 2 else -degree
+    new_board = [[0]*(len(board[0]) + 1) for _ in range(len(board)+1)]
 
-    # 행 기준 누적합
-    for i in range(len(tmp) - 1):
-        for j in range(len(tmp[0]) - 1):
-            tmp[i][j + 1] += tmp[i][j]
+    for each in skill:
 
-    # 열 기준 누적합
-    for j in range(len(tmp[0]) - 1):
-        for i in range(len(tmp) - 1):
-            tmp[i + 1][j] += tmp[i][j]
+        direct, x1, y1, x2, y2, degree = each
 
-    # 기존 배열과 합함
+        if direct == 1: degree = -degree
+
+        X1, Y1 = x1,y1
+        X2, Y2 = x2+1,y1
+        X3, Y3 = x1, y2+1
+        X4, Y4 = x2+1, y2+1
+
+        new_board[X1][Y1] += degree
+        new_board[X2][Y2] += -degree
+        new_board[X3][Y3] += -degree
+        new_board[X4][Y4] += degree
+
+    before = 0
+    for j in range(len(board[0])+1):
+        for i in range(len(board)+1):
+            new_board[i][j] = new_board[i][j] + before
+            before = new_board[i][j]
+
+    before = 0
+    for i in range(len(board)+1):
+        for j in range(len(board[0])+1):
+            new_board[i][j] = new_board[i][j] + before
+            before = new_board[i][j]
+
+    count = 0
     for i in range(len(board)):
-        for j in range(len(board[i])):
-            board[i][j] += tmp[i][j]
-            # board에 값이 1이상인 경우 answer++
-            if board[i][j] > 0: answer += 1
+        for j in range(len(board[0])):
+            if board[i][j] + new_board[i][j] > 0: count += 1
 
-    return answer    
+    return count
         
         
