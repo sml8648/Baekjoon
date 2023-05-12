@@ -28,14 +28,15 @@ def search(x):
 
     return True
 
-start = 0
-end = 2000000000
+start = -1
+end = 2000000001
 
 while start <= end:
 
     mid = (start + end) // 2
     result = search(mid)
 
+    # 이분탐색으로 문제 풀이
     if result:
         start = mid + 1
     else:
