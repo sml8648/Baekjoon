@@ -29,7 +29,7 @@ def search(x):
     return True
 
 start = 0
-end = 2000000020
+end = 2000000000
 
 while start <= end:
 
