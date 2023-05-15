@@ -24,7 +24,7 @@ def dfs(node):
             dp[node][1] += dp[x][0]
 
             path[node][1] += result[0]
-            if dp[x][0] > dp[x][1]:
+            if dp[x][0] >= dp[x][1]:
                 path[node][0] += result[0]
             else:
                 path[node][0] += result[1]
